@@ -655,23 +655,24 @@
         }
 
         function renderMCATable() {
-            const tbody = document.getElementById('mcaBody');
-            tbody.innerHTML = '';
-            
-            baseMcaData.forEach((alt, idx) => {
-                const tr = document.createElement('tr');
-                let rowHtml = `<td class="alt-name">${alt.name}</td>`;
-                
-                alt.scores.forEach((s, sIdx) => {
-                    rowHtml += `<td><input type="number" step="0.5" min="0" max="10" class="score-input" id="s_${idx}_${sIdx}" value="${s}" oninput="calculateOverallFromTable()"></td>`;
-                });
-                
-                rowHtml += `<td class="score-cell" id="tot_${idx}">0</td>`;
-                tr.innerHTML = rowHtml;
-                tbody.appendChild(tr);
-            });
-            calculateOverallFromTable();
-        }
+    const tbody = document.getElementById('mcaBody');
+    tbody.innerHTML = '';
+    
+    baseMcaData.forEach((alt, idx) => {
+        const tr = document.createElement('tr');
+        let rowHtml = `<td class="alt-name">${alt.name}</td>`;
+        
+        alt.scores.forEach((s, sIdx) => {
+            // Using type="text" with inputmode="decimal" ensures smooth typing on all devices
+            rowHtml += `<td><input type="text" inputmode="decimal" class="score-input" id="s_${idx}_${sIdx}" value="${s}" oninput="calculateOverallFromTable()"></td>`;
+        });
+        
+        rowHtml += `<td class="score-cell" id="tot_${idx}">0</td>`;
+        tr.innerHTML = rowHtml;
+        tbody.appendChild(tr);
+    });
+    calculateOverallFromTable();
+}
 
         function applyScenario(scen) {
             document.querySelectorAll('.btn-scenario').forEach(b => b.classList.remove('active'));
